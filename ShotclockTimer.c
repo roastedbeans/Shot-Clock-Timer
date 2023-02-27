@@ -11,22 +11,20 @@
 #pragma config CP = OFF
 
 void dispHeader();
+void beginCount();
 void delay(int timer);
-void dispLCD();
+void DAVBL();
 void dataCtrl(unsigned char DATA);
 void dispSTR(char STR[20]);
 void initLCD();
 void instCtrl(unsigned char INST);
 void toogleFlag();
-int flagStart = 0;
-int flagPause = 0;
+int flagPause = 1;
 int count_flag;
-int minutes = 0;
 int seconds = 24;
-int dispMin;
+int newSeconds = 0;
 int dispSec;
 int dataRead;
-//void dispLED(int DATA);
 
 void main(void)
 {
@@ -42,15 +40,16 @@ void main(void)
 	TRISA = 0x00;
 	TRISB = 0x01;
 	TRISC = 0x00;
-	TRISD = 0x0F;
+	TRISD = 0x1F;
 
 	dispHeader();
 
 	while(1)
-	{
-		if(RB0 == 1)
-			dispLCD();
+	{		
+		beginCount();
 	}
+
+	
 }
 
 
@@ -58,7 +57,25 @@ void beginCount()
 {	
 	for(;seconds >= 0;seconds--)
 	{	
-		dispMin = (seconds/60);
+		while(flagPause == 1)
+		{
+			if(RD4 == 1)
+			{
+				dataRead = PORTD & 0x0F;
+				DAVBL();
+				dispSec = (seconds%60);
+				int secLSB;
+				secLSB = dispSec%10;
+				int secMSB;
+				secMSB = dispSec/10;
+				secMSB = secMSB%10;
+				instCtrl(0xC8);
+				dataCtrl(secMSB+48);
+				dataCtrl(secLSB+48);
+				newSeconds = seconds;
+			}
+	
+		}
 		dispSec = (seconds%60);
 		
 		int secLSB;
@@ -67,20 +84,12 @@ void beginCount()
 		secMSB = dispSec/10;
 		secMSB = secMSB%10;
 		instCtrl(0xC8);
-		//dataCtrl(dispMin+48);		
-		//dataCtrl(':');
 		dataCtrl(secMSB+48);
 		dataCtrl(secLSB+48);		
 
 		delay(122);
-		if(flagStart == 0)
-		{
-			break;
-		}
-		while(flagPause == 1)
-		{
-		}
 	}
+	seconds = newSeconds;
 }
 //instCtrl(0x80)
 //instCtrl(0xC0)
@@ -118,7 +127,7 @@ void dataCtrl(unsigned char DATA)
 	RA1 = 0;
 }
 
-void dispLCD()
+void DAVBL()
 {
 	int DATA = dataRead;
 	if(DATA < 3)
@@ -141,40 +150,38 @@ void dispLCD()
 	{
 		DATA = DATA;
 	}
-
-	//instCtrl(0xC0);
-	//dataCtrl(DATA + 48);
-	minutes = DATA;
 	
 	switch(DATA)
 	{
 		case 12:
-			beginCount();
-			minutes = 0;
-			seconds = 24;
-			dispHeader();
+			seconds += 1;
+			delay(30);
 			break;
 		case 14:
-			flagPause = 1;
-			minutes = 0;
-			seconds = 24;
+			seconds -= 1;
+			delay(30);
 			break;
 		default:
 			break;
 	}
-	//seconds = minutes*60;
 }
 
 void dispHeader()
 {
-	flagStart = 0;
 	initLCD();
 	instCtrl(0x82);
 	char header[20] = "Shot Clock Timer";
 	dispSTR(header);
+	dispSec = (seconds%60);
+	
+	int secLSB;
+	secLSB = dispSec%10;
+	int secMSB;
+	secMSB = dispSec/10;
+	secMSB = secMSB%10;
 	instCtrl(0xC8);
-	char header2[20] = "24";
-	dispSTR(header2);
+	dataCtrl(secMSB+48);
+	dataCtrl(secLSB+48);
 }
 
 void dispSTR(char STR[20])
@@ -192,32 +199,6 @@ void dispSTR(char STR[20])
 	}
 }
 
-/*void dispLED(int DATA)
-{
-    if(DATA < 3)
-    {
-        DATA += 1;
-        PORTC = DATA;
-    }
-    else if (DATA > 6 && DATA < 11)
-    {
-        DATA -= 1;
-        PORTC = DATA;
-    }
-    else if(DATA > 3 && DATA <= 6)
-    {
-        PORTC = DATA;
-    }
-    else if(DATA == 13)
-    {
-        PORTC = 0x00;
-    }
-    else
-    {
-        PORTC = 0x0F;
-    }
-}*/
-
 void delay(int timer)
 {
     while(count_flag < timer)
@@ -231,7 +212,6 @@ void interrupt ISR()
 	GIE = 0;
 	if(INTF)
 	{
-		dataRead = PORTD & 0x0F;
 		toogleFlag();
 		INTF = 0;
 	}
@@ -245,22 +225,9 @@ void interrupt ISR()
 
 void toogleFlag()
 {
-	if(dataRead == 12)
-	{
-		if(flagStart == 0)
-			flagStart = 1;
+	if(flagPause == 0)
+		flagPause = 1;
 
-		else if(flagStart == 1)
-			flagStart = 0;
-	}
-	
-	if(dataRead == 14)
-	{
-		if(flagPause == 0)
-			flagPause = 1;
-
-		else if(flagPause == 1)
-			flagPause = 0;
-	}
-	
+	else if(flagPause == 1)
+		flagPause = 0;
 }

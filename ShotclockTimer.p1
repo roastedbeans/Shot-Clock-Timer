@@ -26,15 +26,19 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _TRISD `Vuc ~T0 @X0 0 e@136 ]
 "13 C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c
 [v _dispHeader `(v ~T0 @X0 0 ef ]
-"2511 C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f877a.h
-[v _RB0 `Vb ~T0 @X0 0 e@48 ]
-"15 C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c
-[v _dispLCD `(v ~T0 @X0 0 ef ]
-"19
-[v _instCtrl `(v ~T0 @X0 0 ef1`uc ]
-"16
-[v _dataCtrl `(v ~T0 @X0 0 ef1`uc ]
 "14
+[v _beginCount `(v ~T0 @X0 0 ef ]
+"2569 C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f877a.h
+[v _RD4 `Vb ~T0 @X0 0 e@68 ]
+"329
+[v _PORTD `Vuc ~T0 @X0 0 e@8 ]
+"16 C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c
+[v _DAVBL `(v ~T0 @X0 0 ef ]
+"20
+[v _instCtrl `(v ~T0 @X0 0 ef1`uc ]
+"17
+[v _dataCtrl `(v ~T0 @X0 0 ef1`uc ]
+"15
 [v _delay `(v ~T0 @X0 0 ef1`i ]
 "268 C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f877a.h
 [v _PORTC `Vuc ~T0 @X0 0 e@7 ]
@@ -44,11 +48,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _RA2 `Vb ~T0 @X0 0 e@42 ]
 "2501
 [v _RA1 `Vb ~T0 @X0 0 e@41 ]
-"17 C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c
+"18 C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c
 [v _dispSTR `(v ~T0 @X0 0 ef1`*uc ]
-"329 C:\Program Files (x86)\Microchip\xc8\v1.33\include\pic16f877a.h
-[v _PORTD `Vuc ~T0 @X0 0 e@8 ]
-"20 C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c
+"21
 [v _toogleFlag `(v ~T0 @X0 0 ef ]
 [; ;htc.h: 21: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 24: extern void __builtin_software_breakpoint(void);
@@ -1106,463 +1108,469 @@ Version 3.2 HI-TECH Software Intermediate Code
 "11
 [p x CP=OFF ]
 [; ;ShotclockTimer.c: 13: void dispHeader();
-[; ;ShotclockTimer.c: 14: void delay(int timer);
-[; ;ShotclockTimer.c: 15: void dispLCD();
-[; ;ShotclockTimer.c: 16: void dataCtrl(unsigned char DATA);
-[; ;ShotclockTimer.c: 17: void dispSTR(char STR[20]);
-[; ;ShotclockTimer.c: 18: void initLCD();
-[; ;ShotclockTimer.c: 19: void instCtrl(unsigned char INST);
-[; ;ShotclockTimer.c: 20: void toogleFlag();
-"21
-[v _flagStart `i ~T0 @X0 1 e ]
-[i _flagStart
--> 0 `i
-]
-[; ;ShotclockTimer.c: 21: int flagStart = 0;
+[; ;ShotclockTimer.c: 14: void beginCount();
+[; ;ShotclockTimer.c: 15: void delay(int timer);
+[; ;ShotclockTimer.c: 16: void DAVBL();
+[; ;ShotclockTimer.c: 17: void dataCtrl(unsigned char DATA);
+[; ;ShotclockTimer.c: 18: void dispSTR(char STR[20]);
+[; ;ShotclockTimer.c: 19: void initLCD();
+[; ;ShotclockTimer.c: 20: void instCtrl(unsigned char INST);
+[; ;ShotclockTimer.c: 21: void toogleFlag();
 "22
 [v _flagPause `i ~T0 @X0 1 e ]
 [i _flagPause
--> 0 `i
+-> 1 `i
 ]
-[; ;ShotclockTimer.c: 22: int flagPause = 0;
+[; ;ShotclockTimer.c: 22: int flagPause = 1;
 "23
 [v _count_flag `i ~T0 @X0 1 e ]
 [; ;ShotclockTimer.c: 23: int count_flag;
 "24
-[v _minutes `i ~T0 @X0 1 e ]
-[i _minutes
--> 0 `i
-]
-[; ;ShotclockTimer.c: 24: int minutes = 0;
-"25
 [v _seconds `i ~T0 @X0 1 e ]
 [i _seconds
 -> 24 `i
 ]
-[; ;ShotclockTimer.c: 25: int seconds = 24;
+[; ;ShotclockTimer.c: 24: int seconds = 24;
+"25
+[v _newSeconds `i ~T0 @X0 1 e ]
+[i _newSeconds
+-> 0 `i
+]
+[; ;ShotclockTimer.c: 25: int newSeconds = 0;
 "26
-[v _dispMin `i ~T0 @X0 1 e ]
-[; ;ShotclockTimer.c: 26: int dispMin;
-"27
 [v _dispSec `i ~T0 @X0 1 e ]
-[; ;ShotclockTimer.c: 27: int dispSec;
-"28
+[; ;ShotclockTimer.c: 26: int dispSec;
+"27
 [v _dataRead `i ~T0 @X0 1 e ]
-[; ;ShotclockTimer.c: 28: int dataRead;
-"31
+[; ;ShotclockTimer.c: 27: int dataRead;
+"29
 [v _main `(v ~T0 @X0 1 ef ]
-"32
+"30
 {
-[; ;ShotclockTimer.c: 31: void main(void)
-[; ;ShotclockTimer.c: 32: {
+[; ;ShotclockTimer.c: 29: void main(void)
+[; ;ShotclockTimer.c: 30: {
 [e :U _main ]
 [f ]
-[; ;ShotclockTimer.c: 33: OPTION_REG = 0x43;
-"33
+[; ;ShotclockTimer.c: 31: OPTION_REG = 0x43;
+"31
 [e = _OPTION_REG -> -> 67 `i `uc ]
-[; ;ShotclockTimer.c: 34: INTE = 1;
-"34
+[; ;ShotclockTimer.c: 32: INTE = 1;
+"32
 [e = _INTE -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 35: INTF = 0;
-"35
+[; ;ShotclockTimer.c: 33: INTF = 0;
+"33
 [e = _INTF -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 36: T0IE = 1;
-"36
+[; ;ShotclockTimer.c: 34: T0IE = 1;
+"34
 [e = _T0IE -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 37: T0IF = 0;
-"37
+[; ;ShotclockTimer.c: 35: T0IF = 0;
+"35
 [e = _T0IF -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 38: GIE = 1;
-"38
+[; ;ShotclockTimer.c: 36: GIE = 1;
+"36
 [e = _GIE -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 40: ADCON1 = 0x06;
-"40
+[; ;ShotclockTimer.c: 38: ADCON1 = 0x06;
+"38
 [e = _ADCON1 -> -> 6 `i `uc ]
-[; ;ShotclockTimer.c: 41: CMCON = 0x07;
-"41
+[; ;ShotclockTimer.c: 39: CMCON = 0x07;
+"39
 [e = _CMCON -> -> 7 `i `uc ]
-[; ;ShotclockTimer.c: 42: TRISA = 0x00;
-"42
+[; ;ShotclockTimer.c: 40: TRISA = 0x00;
+"40
 [e = _TRISA -> -> 0 `i `uc ]
-[; ;ShotclockTimer.c: 43: TRISB = 0x01;
-"43
+[; ;ShotclockTimer.c: 41: TRISB = 0x01;
+"41
 [e = _TRISB -> -> 1 `i `uc ]
-[; ;ShotclockTimer.c: 44: TRISC = 0x00;
-"44
+[; ;ShotclockTimer.c: 42: TRISC = 0x00;
+"42
 [e = _TRISC -> -> 0 `i `uc ]
-[; ;ShotclockTimer.c: 45: TRISD = 0x0F;
+[; ;ShotclockTimer.c: 43: TRISD = 0x1F;
+"43
+[e = _TRISD -> -> 31 `i `uc ]
+[; ;ShotclockTimer.c: 45: dispHeader();
 "45
-[e = _TRISD -> -> 15 `i `uc ]
-[; ;ShotclockTimer.c: 47: dispHeader();
-"47
 [e ( _dispHeader ..  ]
-[; ;ShotclockTimer.c: 49: while(1)
-"49
+[; ;ShotclockTimer.c: 47: while(1)
+"47
 [e :U 98 ]
-[; ;ShotclockTimer.c: 50: {
-"50
+[; ;ShotclockTimer.c: 48: {
+"48
 {
-[; ;ShotclockTimer.c: 51: if(RB0 == 1)
-"51
-[e $ ! == -> _RB0 `i -> 1 `i 100  ]
-[; ;ShotclockTimer.c: 52: dispLCD();
-"52
-[e ( _dispLCD ..  ]
-[e :U 100 ]
-"53
+[; ;ShotclockTimer.c: 49: beginCount();
+"49
+[e ( _beginCount ..  ]
+"50
 }
 [e :U 97 ]
-"49
+"47
 [e $U 98  ]
 [e :U 99 ]
+[; ;ShotclockTimer.c: 50: }
 [; ;ShotclockTimer.c: 53: }
-[; ;ShotclockTimer.c: 54: }
-"54
+"53
 [e :UE 96 ]
 }
-"57
+"56
 [v _beginCount `(v ~T0 @X0 1 ef ]
-"58
+"57
 {
-[; ;ShotclockTimer.c: 57: void beginCount()
-[; ;ShotclockTimer.c: 58: {
+[; ;ShotclockTimer.c: 56: void beginCount()
+[; ;ShotclockTimer.c: 57: {
 [e :U _beginCount ]
 [f ]
-[; ;ShotclockTimer.c: 59: for(;seconds >= 0;seconds--)
-"59
+[; ;ShotclockTimer.c: 58: for(;seconds >= 0;seconds--)
+"58
 {
-[e $U 105  ]
+[e $U 104  ]
+"59
+[e :U 101 ]
+[; ;ShotclockTimer.c: 59: {
+{
+[; ;ShotclockTimer.c: 60: while(flagPause == 1)
 "60
-[e :U 102 ]
-[; ;ShotclockTimer.c: 60: {
-{
-[; ;ShotclockTimer.c: 61: dispMin = (seconds/60);
-"61
-[e = _dispMin / _seconds -> 60 `i ]
-[; ;ShotclockTimer.c: 62: dispSec = (seconds%60);
-"62
-[e = _dispSec % _seconds -> 60 `i ]
-"64
-[v _secLSB `i ~T0 @X0 1 a ]
-[; ;ShotclockTimer.c: 64: int secLSB;
-[; ;ShotclockTimer.c: 65: secLSB = dispSec%10;
-"65
-[e = _secLSB % _dispSec -> 10 `i ]
-"66
-[v _secMSB `i ~T0 @X0 1 a ]
-[; ;ShotclockTimer.c: 66: int secMSB;
-[; ;ShotclockTimer.c: 67: secMSB = dispSec/10;
-"67
-[e = _secMSB / _dispSec -> 10 `i ]
-[; ;ShotclockTimer.c: 68: secMSB = secMSB%10;
-"68
-[e = _secMSB % _secMSB -> 10 `i ]
-[; ;ShotclockTimer.c: 69: instCtrl(0xC8);
-"69
-[e ( _instCtrl (1 -> -> 200 `i `uc ]
-[; ;ShotclockTimer.c: 72: dataCtrl(secMSB+48);
-"72
-[e ( _dataCtrl (1 -> + _secMSB -> 48 `i `uc ]
-[; ;ShotclockTimer.c: 73: dataCtrl(secLSB+48);
-"73
-[e ( _dataCtrl (1 -> + _secLSB -> 48 `i `uc ]
-[; ;ShotclockTimer.c: 75: delay(122);
-"75
-[e ( _delay (1 -> 122 `i ]
-[; ;ShotclockTimer.c: 76: if(flagStart == 0)
-"76
-[e $ ! == _flagStart -> 0 `i 106  ]
-[; ;ShotclockTimer.c: 77: {
-"77
-{
-[; ;ShotclockTimer.c: 78: break;
-"78
-[e $U 103  ]
-"79
-}
+[e $U 105  ]
 [e :U 106 ]
-[; ;ShotclockTimer.c: 79: }
-[; ;ShotclockTimer.c: 80: while(flagPause == 1)
-"80
-[e $U 107  ]
+[; ;ShotclockTimer.c: 61: {
+"61
+{
+[; ;ShotclockTimer.c: 62: if(RD4 == 1)
+"62
+[e $ ! == -> _RD4 `i -> 1 `i 108  ]
+[; ;ShotclockTimer.c: 63: {
+"63
+{
+[; ;ShotclockTimer.c: 64: dataRead = PORTD & 0x0F;
+"64
+[e = _dataRead & -> _PORTD `i -> 15 `i ]
+[; ;ShotclockTimer.c: 65: DAVBL();
+"65
+[e ( _DAVBL ..  ]
+[; ;ShotclockTimer.c: 66: dispSec = (seconds%60);
+"66
+[e = _dispSec % _seconds -> 60 `i ]
+"67
+[v _secLSB `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 67: int secLSB;
+[; ;ShotclockTimer.c: 68: secLSB = dispSec%10;
+"68
+[e = _secLSB % _dispSec -> 10 `i ]
+"69
+[v _secMSB `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 69: int secMSB;
+[; ;ShotclockTimer.c: 70: secMSB = dispSec/10;
+"70
+[e = _secMSB / _dispSec -> 10 `i ]
+[; ;ShotclockTimer.c: 71: secMSB = secMSB%10;
+"71
+[e = _secMSB % _secMSB -> 10 `i ]
+[; ;ShotclockTimer.c: 72: instCtrl(0xC8);
+"72
+[e ( _instCtrl (1 -> -> 200 `i `uc ]
+[; ;ShotclockTimer.c: 73: dataCtrl(secMSB+48);
+"73
+[e ( _dataCtrl (1 -> + _secMSB -> 48 `i `uc ]
+[; ;ShotclockTimer.c: 74: dataCtrl(secLSB+48);
+"74
+[e ( _dataCtrl (1 -> + _secLSB -> 48 `i `uc ]
+[; ;ShotclockTimer.c: 75: newSeconds = seconds;
+"75
+[e = _newSeconds _seconds ]
+"76
+}
 [e :U 108 ]
-[; ;ShotclockTimer.c: 81: {
-"81
-{
-"82
+"78
 }
-[e :U 107 ]
-"80
-[e $ == _flagPause -> 1 `i 108  ]
-[e :U 109 ]
-"83
-}
-"59
-[e -- _seconds -> 1 `i ]
 [e :U 105 ]
-[e $ >= _seconds -> 0 `i 102  ]
-[e :U 103 ]
+"60
+[e $ == _flagPause -> 1 `i 106  ]
+[e :U 107 ]
+[; ;ShotclockTimer.c: 76: }
+[; ;ShotclockTimer.c: 78: }
+[; ;ShotclockTimer.c: 79: dispSec = (seconds%60);
+"79
+[e = _dispSec % _seconds -> 60 `i ]
+"81
+[v _secLSB `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 81: int secLSB;
+[; ;ShotclockTimer.c: 82: secLSB = dispSec%10;
+"82
+[e = _secLSB % _dispSec -> 10 `i ]
 "83
-}
-[; ;ShotclockTimer.c: 82: }
-[; ;ShotclockTimer.c: 83: }
-[; ;ShotclockTimer.c: 84: }
+[v _secMSB `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 83: int secMSB;
+[; ;ShotclockTimer.c: 84: secMSB = dispSec/10;
 "84
-[e :UE 101 ]
+[e = _secMSB / _dispSec -> 10 `i ]
+[; ;ShotclockTimer.c: 85: secMSB = secMSB%10;
+"85
+[e = _secMSB % _secMSB -> 10 `i ]
+[; ;ShotclockTimer.c: 86: instCtrl(0xC8);
+"86
+[e ( _instCtrl (1 -> -> 200 `i `uc ]
+[; ;ShotclockTimer.c: 87: dataCtrl(secMSB+48);
+"87
+[e ( _dataCtrl (1 -> + _secMSB -> 48 `i `uc ]
+[; ;ShotclockTimer.c: 88: dataCtrl(secLSB+48);
+"88
+[e ( _dataCtrl (1 -> + _secLSB -> 48 `i `uc ]
+[; ;ShotclockTimer.c: 90: delay(122);
+"90
+[e ( _delay (1 -> 122 `i ]
+"91
 }
+"58
+[e -- _seconds -> 1 `i ]
+[e :U 104 ]
+[e $ >= _seconds -> 0 `i 101  ]
+[e :U 102 ]
 "91
-[v _instCtrl `(v ~T0 @X0 1 ef1`uc ]
+}
+[; ;ShotclockTimer.c: 91: }
+[; ;ShotclockTimer.c: 92: seconds = newSeconds;
 "92
-{
-[; ;ShotclockTimer.c: 91: void instCtrl(unsigned char INST)
-[; ;ShotclockTimer.c: 92: {
-[e :U _instCtrl ]
-"91
-[v _INST `uc ~T0 @X0 1 r1 ]
-"92
-[f ]
-[; ;ShotclockTimer.c: 93: PORTC = INST;
+[e = _seconds _newSeconds ]
+[; ;ShotclockTimer.c: 93: }
 "93
-[e = _PORTC _INST ]
-[; ;ShotclockTimer.c: 94: RA0 = 0;
-"94
-[e = _RA0 -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 95: RA2 = 0;
-"95
-[e = _RA2 -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 96: RA1 = 1;
-"96
-[e = _RA1 -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 97: delay(30);
-"97
-[e ( _delay (1 -> 30 `i ]
-[; ;ShotclockTimer.c: 98: RA1 = 0;
-"98
-[e = _RA1 -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 99: }
-"99
-[e :UE 110 ]
+[e :UE 100 ]
 }
+"100
+[v _instCtrl `(v ~T0 @X0 1 ef1`uc ]
 "101
-[v _initLCD `(v ~T0 @X0 1 ef ]
-"102
 {
-[; ;ShotclockTimer.c: 101: void initLCD()
-[; ;ShotclockTimer.c: 102: {
+[; ;ShotclockTimer.c: 100: void instCtrl(unsigned char INST)
+[; ;ShotclockTimer.c: 101: {
+[e :U _instCtrl ]
+"100
+[v _INST `uc ~T0 @X0 1 r1 ]
+"101
+[f ]
+[; ;ShotclockTimer.c: 102: PORTC = INST;
+"102
+[e = _PORTC _INST ]
+[; ;ShotclockTimer.c: 103: RA0 = 0;
+"103
+[e = _RA0 -> -> 0 `i `b ]
+[; ;ShotclockTimer.c: 104: RA2 = 0;
+"104
+[e = _RA2 -> -> 0 `i `b ]
+[; ;ShotclockTimer.c: 105: RA1 = 1;
+"105
+[e = _RA1 -> -> 1 `i `b ]
+[; ;ShotclockTimer.c: 106: delay(61);
+"106
+[e ( _delay (1 -> 61 `i ]
+[; ;ShotclockTimer.c: 107: RA1 = 0;
+"107
+[e = _RA1 -> -> 0 `i `b ]
+[; ;ShotclockTimer.c: 108: }
+"108
+[e :UE 109 ]
+}
+"110
+[v _initLCD `(v ~T0 @X0 1 ef ]
+"111
+{
+[; ;ShotclockTimer.c: 110: void initLCD()
+[; ;ShotclockTimer.c: 111: {
 [e :U _initLCD ]
 [f ]
-[; ;ShotclockTimer.c: 103: delay(30);
-"103
+[; ;ShotclockTimer.c: 112: delay(30);
+"112
 [e ( _delay (1 -> 30 `i ]
-[; ;ShotclockTimer.c: 104: instCtrl(0x38);
-"104
+[; ;ShotclockTimer.c: 113: instCtrl(0x38);
+"113
 [e ( _instCtrl (1 -> -> 56 `i `uc ]
-[; ;ShotclockTimer.c: 105: instCtrl(0x08);
-"105
+[; ;ShotclockTimer.c: 114: instCtrl(0x08);
+"114
 [e ( _instCtrl (1 -> -> 8 `i `uc ]
-[; ;ShotclockTimer.c: 106: instCtrl(0x01);
-"106
+[; ;ShotclockTimer.c: 115: instCtrl(0x01);
+"115
 [e ( _instCtrl (1 -> -> 1 `i `uc ]
-[; ;ShotclockTimer.c: 107: instCtrl(0x06);
-"107
+[; ;ShotclockTimer.c: 116: instCtrl(0x06);
+"116
 [e ( _instCtrl (1 -> -> 6 `i `uc ]
-[; ;ShotclockTimer.c: 108: instCtrl(0x0E);
-"108
+[; ;ShotclockTimer.c: 117: instCtrl(0x0E);
+"117
 [e ( _instCtrl (1 -> -> 14 `i `uc ]
-[; ;ShotclockTimer.c: 109: }
-"109
+[; ;ShotclockTimer.c: 118: }
+"118
+[e :UE 110 ]
+}
+"120
+[v _dataCtrl `(v ~T0 @X0 1 ef1`uc ]
+"121
+{
+[; ;ShotclockTimer.c: 120: void dataCtrl(unsigned char DATA)
+[; ;ShotclockTimer.c: 121: {
+[e :U _dataCtrl ]
+"120
+[v _DATA `uc ~T0 @X0 1 r1 ]
+"121
+[f ]
+[; ;ShotclockTimer.c: 122: PORTC = DATA;
+"122
+[e = _PORTC _DATA ]
+[; ;ShotclockTimer.c: 123: RA0 = 1;
+"123
+[e = _RA0 -> -> 1 `i `b ]
+[; ;ShotclockTimer.c: 124: RA2 = 0;
+"124
+[e = _RA2 -> -> 0 `i `b ]
+[; ;ShotclockTimer.c: 125: RA1 = 1;
+"125
+[e = _RA1 -> -> 1 `i `b ]
+[; ;ShotclockTimer.c: 126: delay(1);
+"126
+[e ( _delay (1 -> 1 `i ]
+[; ;ShotclockTimer.c: 127: RA1 = 0;
+"127
+[e = _RA1 -> -> 0 `i `b ]
+[; ;ShotclockTimer.c: 128: }
+"128
 [e :UE 111 ]
 }
-"111
-[v _dataCtrl `(v ~T0 @X0 1 ef1`uc ]
-"112
-{
-[; ;ShotclockTimer.c: 111: void dataCtrl(unsigned char DATA)
-[; ;ShotclockTimer.c: 112: {
-[e :U _dataCtrl ]
-"111
-[v _DATA `uc ~T0 @X0 1 r1 ]
-"112
-[f ]
-[; ;ShotclockTimer.c: 113: PORTC = DATA;
-"113
-[e = _PORTC _DATA ]
-[; ;ShotclockTimer.c: 114: RA0 = 1;
-"114
-[e = _RA0 -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 115: RA2 = 0;
-"115
-[e = _RA2 -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 116: RA1 = 1;
-"116
-[e = _RA1 -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 117: delay(0);
-"117
-[e ( _delay (1 -> 0 `i ]
-[; ;ShotclockTimer.c: 118: RA1 = 0;
-"118
-[e = _RA1 -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 119: }
-"119
-[e :UE 112 ]
-}
-"121
-[v _dispLCD `(v ~T0 @X0 1 ef ]
-"122
-{
-[; ;ShotclockTimer.c: 121: void dispLCD()
-[; ;ShotclockTimer.c: 122: {
-[e :U _dispLCD ]
-[f ]
-"123
-[v _DATA `i ~T0 @X0 1 a ]
-[; ;ShotclockTimer.c: 123: int DATA = dataRead;
-[e = _DATA _dataRead ]
-[; ;ShotclockTimer.c: 124: if(DATA < 3)
-"124
-[e $ ! < _DATA -> 3 `i 114  ]
-[; ;ShotclockTimer.c: 125: {
-"125
-{
-[; ;ShotclockTimer.c: 126: DATA += 1;
-"126
-[e =+ _DATA -> 1 `i ]
-"127
-}
-[; ;ShotclockTimer.c: 127: }
-[e $U 115  ]
-"128
-[e :U 114 ]
-[; ;ShotclockTimer.c: 128: else if (DATA > 6 && DATA < 11)
-[e $ ! && > _DATA -> 6 `i < _DATA -> 11 `i 116  ]
-[; ;ShotclockTimer.c: 129: {
-"129
-{
-[; ;ShotclockTimer.c: 130: DATA -= 1;
 "130
-[e =- _DATA -> 1 `i ]
+[v _DAVBL `(v ~T0 @X0 1 ef ]
 "131
-}
-[; ;ShotclockTimer.c: 131: }
-[e $U 117  ]
+{
+[; ;ShotclockTimer.c: 130: void DAVBL()
+[; ;ShotclockTimer.c: 131: {
+[e :U _DAVBL ]
+[f ]
 "132
-[e :U 116 ]
-[; ;ShotclockTimer.c: 132: else if(DATA > 3 && DATA <= 6)
-[e $ ! && > _DATA -> 3 `i <= _DATA -> 6 `i 118  ]
-[; ;ShotclockTimer.c: 133: {
+[v _DATA `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 132: int DATA = dataRead;
+[e = _DATA _dataRead ]
+[; ;ShotclockTimer.c: 133: if(DATA < 3)
 "133
-{
-[; ;ShotclockTimer.c: 134: DATA = DATA;
+[e $ ! < _DATA -> 3 `i 113  ]
+[; ;ShotclockTimer.c: 134: {
 "134
-[e = _DATA _DATA ]
+{
+[; ;ShotclockTimer.c: 135: DATA += 1;
 "135
-}
-[; ;ShotclockTimer.c: 135: }
-[e $U 119  ]
+[e =+ _DATA -> 1 `i ]
 "136
-[e :U 118 ]
-[; ;ShotclockTimer.c: 136: else if(DATA == 13)
-[e $ ! == _DATA -> 13 `i 120  ]
-[; ;ShotclockTimer.c: 137: {
+}
+[; ;ShotclockTimer.c: 136: }
+[e $U 114  ]
 "137
-{
-[; ;ShotclockTimer.c: 138: DATA = 0;
+[e :U 113 ]
+[; ;ShotclockTimer.c: 137: else if (DATA > 6 && DATA < 11)
+[e $ ! && > _DATA -> 6 `i < _DATA -> 11 `i 115  ]
+[; ;ShotclockTimer.c: 138: {
 "138
-[e = _DATA -> 0 `i ]
-"139
-}
-[; ;ShotclockTimer.c: 139: }
-[e $U 121  ]
-"140
-[e :U 120 ]
-[; ;ShotclockTimer.c: 140: else
-[; ;ShotclockTimer.c: 141: {
-"141
 {
-[; ;ShotclockTimer.c: 142: DATA = DATA;
-"142
-[e = _DATA _DATA ]
-"143
+[; ;ShotclockTimer.c: 139: DATA -= 1;
+"139
+[e =- _DATA -> 1 `i ]
+"140
 }
-[e :U 121 ]
-[e :U 119 ]
-[e :U 117 ]
+[; ;ShotclockTimer.c: 140: }
+[e $U 116  ]
+"141
 [e :U 115 ]
-[; ;ShotclockTimer.c: 143: }
-[; ;ShotclockTimer.c: 147: minutes = DATA;
+[; ;ShotclockTimer.c: 141: else if(DATA > 3 && DATA <= 6)
+[e $ ! && > _DATA -> 3 `i <= _DATA -> 6 `i 117  ]
+[; ;ShotclockTimer.c: 142: {
+"142
+{
+[; ;ShotclockTimer.c: 143: DATA = DATA;
+"143
+[e = _DATA _DATA ]
+"144
+}
+[; ;ShotclockTimer.c: 144: }
+[e $U 118  ]
+"145
+[e :U 117 ]
+[; ;ShotclockTimer.c: 145: else if(DATA == 13)
+[e $ ! == _DATA -> 13 `i 119  ]
+[; ;ShotclockTimer.c: 146: {
+"146
+{
+[; ;ShotclockTimer.c: 147: DATA = 0;
 "147
-[e = _minutes _DATA ]
-[; ;ShotclockTimer.c: 149: switch(DATA)
+[e = _DATA -> 0 `i ]
+"148
+}
+[; ;ShotclockTimer.c: 148: }
+[e $U 120  ]
 "149
-[e $U 123  ]
+[e :U 119 ]
+[; ;ShotclockTimer.c: 149: else
 [; ;ShotclockTimer.c: 150: {
 "150
 {
-[; ;ShotclockTimer.c: 151: case 12:
+[; ;ShotclockTimer.c: 151: DATA = DATA;
 "151
-[e :U 124 ]
-[; ;ShotclockTimer.c: 152: beginCount();
+[e = _DATA _DATA ]
 "152
-[e ( _beginCount ..  ]
-[; ;ShotclockTimer.c: 153: minutes = 0;
-"153
-[e = _minutes -> 0 `i ]
-[; ;ShotclockTimer.c: 154: seconds = 24;
+}
+[e :U 120 ]
+[e :U 118 ]
+[e :U 116 ]
+[e :U 114 ]
+[; ;ShotclockTimer.c: 152: }
+[; ;ShotclockTimer.c: 154: switch(DATA)
 "154
-[e = _seconds -> 24 `i ]
-[; ;ShotclockTimer.c: 155: dispHeader();
+[e $U 122  ]
+[; ;ShotclockTimer.c: 155: {
 "155
-[e ( _dispHeader ..  ]
-[; ;ShotclockTimer.c: 156: break;
+{
+[; ;ShotclockTimer.c: 156: case 12:
 "156
-[e $U 122  ]
-[; ;ShotclockTimer.c: 157: case 14:
+[e :U 123 ]
+[; ;ShotclockTimer.c: 157: seconds += 1;
 "157
-[e :U 125 ]
-[; ;ShotclockTimer.c: 158: flagPause = 1;
+[e =+ _seconds -> 1 `i ]
+[; ;ShotclockTimer.c: 158: delay(30);
 "158
-[e = _flagPause -> 1 `i ]
-[; ;ShotclockTimer.c: 159: minutes = 0;
+[e ( _delay (1 -> 30 `i ]
+[; ;ShotclockTimer.c: 159: break;
 "159
-[e = _minutes -> 0 `i ]
-[; ;ShotclockTimer.c: 160: seconds = 24;
+[e $U 121  ]
+[; ;ShotclockTimer.c: 160: case 14:
 "160
-[e = _seconds -> 24 `i ]
-[; ;ShotclockTimer.c: 161: break;
+[e :U 124 ]
+[; ;ShotclockTimer.c: 161: seconds -= 1;
 "161
-[e $U 122  ]
-[; ;ShotclockTimer.c: 162: default:
+[e =- _seconds -> 1 `i ]
+[; ;ShotclockTimer.c: 162: delay(30);
 "162
-[e :U 126 ]
+[e ( _delay (1 -> 30 `i ]
 [; ;ShotclockTimer.c: 163: break;
 "163
-[e $U 122  ]
+[e $U 121  ]
+[; ;ShotclockTimer.c: 164: default:
 "164
-}
-[; ;ShotclockTimer.c: 164: }
-[e $U 122  ]
-"149
-[e :U 123 ]
-[e [\ _DATA , $ -> 12 `i 124
- , $ -> 14 `i 125
- 126 ]
-"164
-[e :U 122 ]
-[; ;ShotclockTimer.c: 166: }
+[e :U 125 ]
+[; ;ShotclockTimer.c: 165: break;
+"165
+[e $U 121  ]
 "166
-[e :UE 113 ]
 }
-"168
-[v _dispHeader `(v ~T0 @X0 1 ef ]
+[; ;ShotclockTimer.c: 166: }
+[e $U 121  ]
+"154
+[e :U 122 ]
+[e [\ _DATA , $ -> 12 `i 123
+ , $ -> 14 `i 124
+ 125 ]
+"166
+[e :U 121 ]
+[; ;ShotclockTimer.c: 167: }
+"167
+[e :UE 112 ]
+}
 "169
+[v _dispHeader `(v ~T0 @X0 1 ef ]
+"170
 {
-[; ;ShotclockTimer.c: 168: void dispHeader()
-[; ;ShotclockTimer.c: 169: {
+[; ;ShotclockTimer.c: 169: void dispHeader()
+[; ;ShotclockTimer.c: 170: {
 [e :U _dispHeader ]
 [f ]
-[; ;ShotclockTimer.c: 170: flagStart = 0;
-"170
-[e = _flagStart -> 0 `i ]
 [; ;ShotclockTimer.c: 171: initLCD();
 "171
 [e ( _initLCD ..  ]
@@ -1598,236 +1606,206 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;ShotclockTimer.c: 174: dispSTR(header);
 "174
 [e ( _dispSTR (1 &U _header ]
-[; ;ShotclockTimer.c: 175: instCtrl(0xC8);
+[; ;ShotclockTimer.c: 175: dispSec = (seconds%60);
 "175
-[e ( _instCtrl (1 -> -> 200 `i `uc ]
-[v F1181 `uc ~T0 @X0 -> 20 `i s ]
-[i F1181
-:U ..
--> 50 `c
--> 52 `c
--> 0 `c
-..
-]
-"176
-[v _header2 `uc ~T0 @X0 -> 20 `i a ]
-[; ;ShotclockTimer.c: 176: char header2[20] = "24";
-[e = _header2 F1181 ]
-[; ;ShotclockTimer.c: 177: dispSTR(header2);
+[e = _dispSec % _seconds -> 60 `i ]
 "177
-[e ( _dispSTR (1 &U _header2 ]
-[; ;ShotclockTimer.c: 178: }
+[v _secLSB `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 177: int secLSB;
+[; ;ShotclockTimer.c: 178: secLSB = dispSec%10;
 "178
-[e :UE 127 ]
-}
+[e = _secLSB % _dispSec -> 10 `i ]
+"179
+[v _secMSB `i ~T0 @X0 1 a ]
+[; ;ShotclockTimer.c: 179: int secMSB;
+[; ;ShotclockTimer.c: 180: secMSB = dispSec/10;
 "180
-[v _dispSTR `(v ~T0 @X0 1 ef1`*uc ]
+[e = _secMSB / _dispSec -> 10 `i ]
+[; ;ShotclockTimer.c: 181: secMSB = secMSB%10;
 "181
-{
-[; ;ShotclockTimer.c: 180: void dispSTR(char STR[20])
-[; ;ShotclockTimer.c: 181: {
-[e :U _dispSTR ]
-"180
-[v _STR `*uc ~T0 @X0 1 r1 ]
-"181
-[f ]
-[; ;ShotclockTimer.c: 182: for(int i = 0;;i++)
+[e = _secMSB % _secMSB -> 10 `i ]
+[; ;ShotclockTimer.c: 182: instCtrl(0xC8);
 "182
+[e ( _instCtrl (1 -> -> 200 `i `uc ]
+[; ;ShotclockTimer.c: 183: dataCtrl(secMSB+48);
+"183
+[e ( _dataCtrl (1 -> + _secMSB -> 48 `i `uc ]
+[; ;ShotclockTimer.c: 184: dataCtrl(secLSB+48);
+"184
+[e ( _dataCtrl (1 -> + _secLSB -> 48 `i `uc ]
+[; ;ShotclockTimer.c: 185: }
+"185
+[e :UE 126 ]
+}
+"187
+[v _dispSTR `(v ~T0 @X0 1 ef1`*uc ]
+"188
+{
+[; ;ShotclockTimer.c: 187: void dispSTR(char STR[20])
+[; ;ShotclockTimer.c: 188: {
+[e :U _dispSTR ]
+"187
+[v _STR `*uc ~T0 @X0 1 r1 ]
+"188
+[f ]
+[; ;ShotclockTimer.c: 189: for(int i = 0;;i++)
+"189
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-"183
-[e :U 129 ]
-[; ;ShotclockTimer.c: 183: {
-{
-[; ;ShotclockTimer.c: 184: if(STR[i] != '\0')
-"184
-[e $ ! != -> *U + _STR * -> _i `x -> -> # *U _STR `i `x `ui -> 0 `ui 132  ]
-[; ;ShotclockTimer.c: 185: {
-"185
-{
-[; ;ShotclockTimer.c: 186: dataCtrl(STR[i]);
-"186
-[e ( _dataCtrl (1 *U + _STR * -> _i `x -> -> # *U _STR `i `x ]
-"187
-}
-[; ;ShotclockTimer.c: 187: }
-[e $U 133  ]
-"188
-[e :U 132 ]
-[; ;ShotclockTimer.c: 188: else
-[; ;ShotclockTimer.c: 189: {
-"189
-{
-[; ;ShotclockTimer.c: 190: return;
 "190
-[e $UE 128  ]
+[e :U 128 ]
+[; ;ShotclockTimer.c: 190: {
+{
+[; ;ShotclockTimer.c: 191: if(STR[i] != '\0')
 "191
-}
-[e :U 133 ]
+[e $ ! != -> *U + _STR * -> _i `x -> -> # *U _STR `i `x `ui -> 0 `ui 131  ]
+[; ;ShotclockTimer.c: 192: {
 "192
-}
-"182
-[e ++ _i -> 1 `i ]
-[e $U 129  ]
-[e :U 130 ]
-"192
-}
-[; ;ShotclockTimer.c: 191: }
-[; ;ShotclockTimer.c: 192: }
-[; ;ShotclockTimer.c: 193: }
+{
+[; ;ShotclockTimer.c: 193: dataCtrl(STR[i]);
 "193
-[e :UE 128 ]
+[e ( _dataCtrl (1 *U + _STR * -> _i `x -> -> # *U _STR `i `x ]
+"194
 }
-"221
+[; ;ShotclockTimer.c: 194: }
+[e $U 132  ]
+"195
+[e :U 131 ]
+[; ;ShotclockTimer.c: 195: else
+[; ;ShotclockTimer.c: 196: {
+"196
+{
+[; ;ShotclockTimer.c: 197: return;
+"197
+[e $UE 127  ]
+"198
+}
+[e :U 132 ]
+"199
+}
+"189
+[e ++ _i -> 1 `i ]
+[e $U 128  ]
+[e :U 129 ]
+"199
+}
+[; ;ShotclockTimer.c: 198: }
+[; ;ShotclockTimer.c: 199: }
+[; ;ShotclockTimer.c: 200: }
+"200
+[e :UE 127 ]
+}
+"202
 [v _delay `(v ~T0 @X0 1 ef1`i ]
-"222
+"203
 {
-[; ;ShotclockTimer.c: 221: void delay(int timer)
-[; ;ShotclockTimer.c: 222: {
+[; ;ShotclockTimer.c: 202: void delay(int timer)
+[; ;ShotclockTimer.c: 203: {
 [e :U _delay ]
-"221
+"202
 [v _timer `i ~T0 @X0 1 r1 ]
-"222
+"203
 [f ]
-[; ;ShotclockTimer.c: 223: while(count_flag < timer)
-"223
-[e $U 135  ]
-[e :U 136 ]
-[; ;ShotclockTimer.c: 224: {
-"224
-{
-"225
-}
+[; ;ShotclockTimer.c: 204: while(count_flag < timer)
+"204
+[e $U 134  ]
 [e :U 135 ]
-"223
-[e $ < _count_flag _timer 136  ]
-[e :U 137 ]
-[; ;ShotclockTimer.c: 225: }
-[; ;ShotclockTimer.c: 226: count_flag = 0;
-"226
+[; ;ShotclockTimer.c: 205: {
+"205
+{
+"206
+}
+[e :U 134 ]
+"204
+[e $ < _count_flag _timer 135  ]
+[e :U 136 ]
+[; ;ShotclockTimer.c: 206: }
+[; ;ShotclockTimer.c: 207: count_flag = 0;
+"207
 [e = _count_flag -> 0 `i ]
-[; ;ShotclockTimer.c: 227: }
-"227
-[e :UE 134 ]
+[; ;ShotclockTimer.c: 208: }
+"208
+[e :UE 133 ]
 }
 [v F1186 `(v ~T0 @X0 1 tf ]
-"229
+"210
 [v _ISR `IF1186 ~T0 @X0 1 e ]
-"230
+"211
 {
-[; ;ShotclockTimer.c: 229: void interrupt ISR()
-[; ;ShotclockTimer.c: 230: {
+[; ;ShotclockTimer.c: 210: void interrupt ISR()
+[; ;ShotclockTimer.c: 211: {
 [e :U _ISR ]
 [f ]
-[; ;ShotclockTimer.c: 231: GIE = 0;
-"231
+[; ;ShotclockTimer.c: 212: GIE = 0;
+"212
 [e = _GIE -> -> 0 `i `b ]
-[; ;ShotclockTimer.c: 232: if(INTF)
-"232
-[e $ ! _INTF 139  ]
-[; ;ShotclockTimer.c: 233: {
-"233
+[; ;ShotclockTimer.c: 213: if(INTF)
+"213
+[e $ ! _INTF 138  ]
+[; ;ShotclockTimer.c: 214: {
+"214
 {
-[; ;ShotclockTimer.c: 234: dataRead = PORTD & 0x0F;
-"234
-[e = _dataRead & -> _PORTD `i -> 15 `i ]
-[; ;ShotclockTimer.c: 235: toogleFlag();
-"235
+[; ;ShotclockTimer.c: 215: toogleFlag();
+"215
 [e ( _toogleFlag ..  ]
-[; ;ShotclockTimer.c: 236: INTF = 0;
-"236
+[; ;ShotclockTimer.c: 216: INTF = 0;
+"216
 [e = _INTF -> -> 0 `i `b ]
-"237
+"217
 }
-[; ;ShotclockTimer.c: 237: }
-[e $U 140  ]
-"238
-[e :U 139 ]
-[; ;ShotclockTimer.c: 238: else if(T0IF)
-[e $ ! _T0IF 141  ]
-[; ;ShotclockTimer.c: 239: {
-"239
+[; ;ShotclockTimer.c: 217: }
+[e $U 139  ]
+"218
+[e :U 138 ]
+[; ;ShotclockTimer.c: 218: else if(T0IF)
+[e $ ! _T0IF 140  ]
+[; ;ShotclockTimer.c: 219: {
+"219
 {
-[; ;ShotclockTimer.c: 240: count_flag++;
-"240
+[; ;ShotclockTimer.c: 220: count_flag++;
+"220
 [e ++ _count_flag -> 1 `i ]
-[; ;ShotclockTimer.c: 241: T0IF = 0;
-"241
+[; ;ShotclockTimer.c: 221: T0IF = 0;
+"221
 [e = _T0IF -> -> 0 `i `b ]
-"242
+"222
 }
-[e :U 141 ]
-"243
 [e :U 140 ]
-[; ;ShotclockTimer.c: 242: }
-[; ;ShotclockTimer.c: 243: GIE = 1;
+"223
+[e :U 139 ]
+[; ;ShotclockTimer.c: 222: }
+[; ;ShotclockTimer.c: 223: GIE = 1;
 [e = _GIE -> -> 1 `i `b ]
-[; ;ShotclockTimer.c: 244: }
-"244
-[e :UE 138 ]
+[; ;ShotclockTimer.c: 224: }
+"224
+[e :UE 137 ]
 }
-"246
+"226
 [v _toogleFlag `(v ~T0 @X0 1 ef ]
-"247
+"227
 {
-[; ;ShotclockTimer.c: 246: void toogleFlag()
-[; ;ShotclockTimer.c: 247: {
+[; ;ShotclockTimer.c: 226: void toogleFlag()
+[; ;ShotclockTimer.c: 227: {
 [e :U _toogleFlag ]
 [f ]
-[; ;ShotclockTimer.c: 248: if(dataRead == 12)
-"248
-[e $ ! == _dataRead -> 12 `i 143  ]
-[; ;ShotclockTimer.c: 249: {
-"249
-{
-[; ;ShotclockTimer.c: 250: if(flagStart == 0)
-"250
-[e $ ! == _flagStart -> 0 `i 144  ]
-[; ;ShotclockTimer.c: 251: flagStart = 1;
-"251
-[e = _flagStart -> 1 `i ]
-[e $U 145  ]
-"253
-[e :U 144 ]
-[; ;ShotclockTimer.c: 253: else if(flagStart == 1)
-[e $ ! == _flagStart -> 1 `i 146  ]
-[; ;ShotclockTimer.c: 254: flagStart = 0;
-"254
-[e = _flagStart -> 0 `i ]
-[e :U 146 ]
-"255
-[e :U 145 ]
-}
-[e :U 143 ]
-[; ;ShotclockTimer.c: 255: }
-[; ;ShotclockTimer.c: 257: if(dataRead == 14)
-"257
-[e $ ! == _dataRead -> 14 `i 147  ]
-[; ;ShotclockTimer.c: 258: {
-"258
-{
-[; ;ShotclockTimer.c: 259: if(flagPause == 0)
-"259
-[e $ ! == _flagPause -> 0 `i 148  ]
-[; ;ShotclockTimer.c: 260: flagPause = 1;
-"260
+[; ;ShotclockTimer.c: 228: if(flagPause == 0)
+"228
+[e $ ! == _flagPause -> 0 `i 142  ]
+[; ;ShotclockTimer.c: 229: flagPause = 1;
+"229
 [e = _flagPause -> 1 `i ]
-[e $U 149  ]
-"262
-[e :U 148 ]
-[; ;ShotclockTimer.c: 262: else if(flagPause == 1)
-[e $ ! == _flagPause -> 1 `i 150  ]
-[; ;ShotclockTimer.c: 263: flagPause = 0;
-"263
+[e $U 143  ]
+"231
+[e :U 142 ]
+[; ;ShotclockTimer.c: 231: else if(flagPause == 1)
+[e $ ! == _flagPause -> 1 `i 144  ]
+[; ;ShotclockTimer.c: 232: flagPause = 0;
+"232
 [e = _flagPause -> 0 `i ]
-[e :U 150 ]
-"264
-[e :U 149 ]
-}
-[e :U 147 ]
-[; ;ShotclockTimer.c: 264: }
-[; ;ShotclockTimer.c: 266: }
-"266
-[e :UE 142 ]
+[e :U 144 ]
+"233
+[e :U 143 ]
+[; ;ShotclockTimer.c: 233: }
+[e :UE 141 ]
 }
