@@ -1,5 +1,4 @@
 #include <xc.h>
-#include <math.h>
 
 #pragma config FOSC = XT
 #pragma config WDTE = OFF
@@ -18,98 +17,109 @@ void dataCtrl(unsigned char DATA);
 void dispSTR(char STR[20]);
 void initLCD();
 void instCtrl(unsigned char INST);
-void toogleFlag();
+void toggleFlag();
 int flagPause = 1;
 int count_flag;
 int seconds = 24;
-int newSeconds = 0;
 int dispSec;
 int dataRead;
 
 void main(void)
 {
-	OPTION_REG = 0x43;
+	OPTION_REG = 0x44;
 	INTE = 1;
 	INTF = 0;
 	T0IE = 1;
 	T0IF = 0;
 	GIE = 1;	
 
-	ADCON1 = 0x06;
-	CMCON = 0x07;
-	TRISA = 0x00;
+	//ADCON1 = 0x06;
+	//CMCON = 0x07;
+	//TRISA = 0x00;
 	TRISB = 0x01;
 	TRISC = 0x00;
-	TRISD = 0x1F;
+	TRISD = 0x0F;
 
 	dispHeader();
 
 	while(1)
 	{		
 		beginCount();
-	}
-
-	
+	}	
 }
-
 
 void beginCount()
-{	
-	for(;seconds >= 0;seconds--)
+{
+	int secLSB;
+	int secMSB;
+	for(;seconds >= 0;)
 	{	
-		while(flagPause == 1)
-		{
-			if(RD4 == 1)
-			{
-				dataRead = PORTD & 0x0F;
-				DAVBL();
-				dispSec = (seconds%60);
-				int secLSB;
-				secLSB = dispSec%10;
-				int secMSB;
-				secMSB = dispSec/10;
-				secMSB = secMSB%10;
-				instCtrl(0xC8);
-				dataCtrl(secMSB+48);
-				dataCtrl(secLSB+48);
-				newSeconds = seconds;
-			}
-	
-		}
 		dispSec = (seconds%60);
-		
-		int secLSB;
 		secLSB = dispSec%10;
-		int secMSB;
 		secMSB = dispSec/10;
 		secMSB = secMSB%10;
-		instCtrl(0xC8);
+		instCtrl(0xC0);
 		dataCtrl(secMSB+48);
 		dataCtrl(secLSB+48);		
+		
+		while(flagPause == 1)
+		{
+			if(RB0 == 1)
+			{
+				DAVBL();
+				dispSec = (seconds%60);
+				secLSB = dispSec%10;
+				secMSB = dispSec/10;
+				secMSB = secMSB%10;
+				instCtrl(0xC0);
+				dataCtrl(secMSB+48);
+				dataCtrl(secLSB+48);
+			}
+		}
 
-		delay(122);
+		delay(122); //simulate 1 second delay
+		seconds--;
 	}
-	seconds = newSeconds;
+	seconds = 24;
 }
-//instCtrl(0x80)
-//instCtrl(0xC0)
-//instCtrl(0x94)
-//instCtrl(0xD4)
-//122 for 1s ; 98 for 0.8s || sec/.008196
+
+void DAVBL()
+{
+	int DATA = dataRead;
+
+	switch(DATA)
+	{
+		case 12:
+			seconds += 1;
+			if(seconds > 24)
+			      {seconds = 0;}
+			while(RB0 = 1)
+			{}
+			break;
+		case 14:
+			seconds -= 1;
+			if(seconds < 0)
+			      {seconds = 24;}
+			while(RB0 = 1)
+			{}
+			break;
+		default:
+			break;
+	}
+}
 
 void instCtrl(unsigned char INST)
 {
 	PORTC = INST;
-	RA0 = 0;
-	RA2 = 0;
-	RA1 = 1;
-	delay(61);
-	RA1 = 0;
+	RB5 = 0;
+	RB6 = 0;
+	RB7 = 1;
+	delay(1);
+	RB7 = 0;
 }
 
 void initLCD()
 {
-	delay(30);
 	instCtrl(0x38); // function set: 8-bit; dual-line
 	instCtrl(0x08); // display off
 	instCtrl(0x01); // display clear
@@ -120,57 +130,18 @@ void initLCD()
 void dataCtrl(unsigned char DATA)
 {
 	PORTC = DATA;
-	RA0 = 1;
-	RA2 = 0;
-	RA1 = 1;
+	RB5 = 1;
+	RB6 = 0;
+	RB7 = 1;
 	delay(1);
-	RA1 = 0;
-}
-
-void DAVBL()
-{
-	int DATA = dataRead;
-	if(DATA < 3)
-	{
-		DATA += 1;
-	}
-	else if (DATA > 6 && DATA < 11)
-	{
-		DATA -= 1;
-	}
-	else if(DATA > 3 && DATA <= 6)
-	{
-		DATA = DATA;
-	}
-	else if(DATA == 13)
-	{
-		DATA = 0;
-	}
-	else
-	{
-		DATA = DATA;
-	}
-	
-	switch(DATA)
-	{
-		case 12:
-			seconds += 1;
-			delay(30);
-			break;
-		case 14:
-			seconds -= 1;
-			delay(30);
-			break;
-		default:
-			break;
-	}
+	RB7 = 0;
 }
 
 void dispHeader()
 {
 	initLCD();
-	instCtrl(0x82);
-	char header[20] = "Shot Clock Timer";
+	instCtrl(0x80);
+	char header[20] = "TIME:";
 	dispSTR(header);
 	dispSec = (seconds%60);
 	
@@ -179,7 +150,7 @@ void dispHeader()
 	int secMSB;
 	secMSB = dispSec/10;
 	secMSB = secMSB%10;
-	instCtrl(0xC8);
+	instCtrl(0xC0);
 	dataCtrl(secMSB+48);
 	dataCtrl(secLSB+48);
 }
@@ -207,12 +178,18 @@ void delay(int timer)
     count_flag = 0;
 }
 
+
 void interrupt ISR()
 {
 	GIE = 0;
 	if(INTF)
 	{
-		toogleFlag();
+	    dataRead = PORTD & 0x0F;
+		if(dataRead == 13)
+		{
+		      toggleFlag();
+		}
+		
 		INTF = 0;
 	}
 	else if(T0IF)
@@ -223,7 +200,7 @@ void interrupt ISR()
 	GIE = 1;
 }
 
-void toogleFlag()
+void toggleFlag()
 {
 	if(flagPause == 0)
 		flagPause = 1;

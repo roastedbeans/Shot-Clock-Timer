@@ -1425,36 +1425,8 @@ extern void memcpyee(__eeprom unsigned char *to, const unsigned char *from, unsi
 #pragma intrinsic(_delay)
 extern __nonreentrant void _delay(unsigned long);
 
-# 3 "C:\Program Files (x86)\Microchip\xc8\v1.33\include\math.h"
-extern double fabs(double);
-extern double floor(double);
-extern double ceil(double);
-extern double modf(double, double *);
-extern double sqrt(double);
-extern double atof(const char *);
-extern double sin(double);
-extern double cos(double);
-extern double tan(double);
-extern double asin(double);
-extern double acos(double);
-extern double atan(double);
-extern double atan2(double, double);
-extern double log(double);
-extern double log10(double);
-extern double pow(double, double);
-extern double exp(double);
-extern double sinh(double);
-extern double cosh(double);
-extern double tanh(double);
-extern double eval_poly(double, const double *, int);
-extern double frexp(double, int *);
-extern double ldexp(double, int);
-extern double fmod(double, double);
-extern double trunc(double);
-extern double round(double);
 
-
-# 4 "C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c"
+# 3 "C:\Users\RetroGeek\Documents\GIT\ProteusLibrary\Shotclock Timer\ShotclockTimer.c"
 #pragma config FOSC = XT
 #pragma config WDTE = OFF
 #pragma config PWRTE = ON
@@ -1472,29 +1444,28 @@ void dataCtrl(unsigned char DATA);
 void dispSTR(char STR[20]);
 void initLCD();
 void instCtrl(unsigned char INST);
-void toogleFlag();
+void toggleFlag();
 int flagPause = 1;
 int count_flag;
 int seconds = 24;
-int newSeconds = 0;
 int dispSec;
 int dataRead;
 
 void main(void)
 {
-OPTION_REG = 0x43;
+OPTION_REG = 0x44;
 INTE = 1;
 INTF = 0;
 T0IE = 1;
 T0IF = 0;
 GIE = 1;
 
-ADCON1 = 0x06;
-CMCON = 0x07;
-TRISA = 0x00;
+
+
+
 TRISB = 0x01;
 TRISC = 0x00;
-TRISD = 0x1F;
+TRISD = 0x0F;
 
 dispHeader();
 
@@ -1502,64 +1473,80 @@ while(1)
 {
 beginCount();
 }
-
-
 }
-
 
 void beginCount()
 {
-for(;seconds >= 0;seconds--)
+int secLSB;
+int secMSB;
+for(;seconds >= 0;)
 {
+dispSec = (seconds%60);
+secLSB = dispSec%10;
+secMSB = dispSec/10;
+secMSB = secMSB%10;
+instCtrl(0xC0);
+dataCtrl(secMSB+48);
+dataCtrl(secLSB+48);
+
 while(flagPause == 1)
 {
-if(RD4 == 1)
+if(RB0 == 1)
 {
-dataRead = PORTD & 0x0F;
 DAVBL();
 dispSec = (seconds%60);
-int secLSB;
 secLSB = dispSec%10;
-int secMSB;
 secMSB = dispSec/10;
 secMSB = secMSB%10;
-instCtrl(0xC8);
+instCtrl(0xC0);
 dataCtrl(secMSB+48);
 dataCtrl(secLSB+48);
-newSeconds = seconds;
 }
-
 }
-dispSec = (seconds%60);
-
-int secLSB;
-secLSB = dispSec%10;
-int secMSB;
-secMSB = dispSec/10;
-secMSB = secMSB%10;
-instCtrl(0xC8);
-dataCtrl(secMSB+48);
-dataCtrl(secLSB+48);
 
 delay(122);
+seconds--;
 }
-seconds = newSeconds;
+seconds = 24;
 }
 
-# 100
+void DAVBL()
+{
+int DATA = dataRead;
+
+switch(DATA)
+{
+case 12:
+seconds += 1;
+if(seconds > 24)
+{seconds = 0;}
+while(RB0 = 1)
+{}
+break;
+case 14:
+seconds -= 1;
+if(seconds < 0)
+{seconds = 24;}
+while(RB0 = 1)
+{}
+break;
+default:
+break;
+}
+}
+
 void instCtrl(unsigned char INST)
 {
 PORTC = INST;
-RA0 = 0;
-RA2 = 0;
-RA1 = 1;
-delay(61);
-RA1 = 0;
+RB5 = 0;
+RB6 = 0;
+RB7 = 1;
+delay(1);
+RB7 = 0;
 }
 
 void initLCD()
 {
-delay(30);
 instCtrl(0x38);
 instCtrl(0x08);
 instCtrl(0x01);
@@ -1570,57 +1557,18 @@ instCtrl(0x0E);
 void dataCtrl(unsigned char DATA)
 {
 PORTC = DATA;
-RA0 = 1;
-RA2 = 0;
-RA1 = 1;
+RB5 = 1;
+RB6 = 0;
+RB7 = 1;
 delay(1);
-RA1 = 0;
-}
-
-void DAVBL()
-{
-int DATA = dataRead;
-if(DATA < 3)
-{
-DATA += 1;
-}
-else if (DATA > 6 && DATA < 11)
-{
-DATA -= 1;
-}
-else if(DATA > 3 && DATA <= 6)
-{
-DATA = DATA;
-}
-else if(DATA == 13)
-{
-DATA = 0;
-}
-else
-{
-DATA = DATA;
-}
-
-switch(DATA)
-{
-case 12:
-seconds += 1;
-delay(30);
-break;
-case 14:
-seconds -= 1;
-delay(30);
-break;
-default:
-break;
-}
+RB7 = 0;
 }
 
 void dispHeader()
 {
 initLCD();
-instCtrl(0x82);
-char header[20] = "Shot Clock Timer";
+instCtrl(0x80);
+char header[20] = "TIME:";
 dispSTR(header);
 dispSec = (seconds%60);
 
@@ -1629,7 +1577,7 @@ secLSB = dispSec%10;
 int secMSB;
 secMSB = dispSec/10;
 secMSB = secMSB%10;
-instCtrl(0xC8);
+instCtrl(0xC0);
 dataCtrl(secMSB+48);
 dataCtrl(secLSB+48);
 }
@@ -1657,12 +1605,18 @@ while(count_flag < timer)
 count_flag = 0;
 }
 
+
 void interrupt ISR()
 {
 GIE = 0;
 if(INTF)
 {
-toogleFlag();
+dataRead = PORTD & 0x0F;
+if(dataRead == 13)
+{
+toggleFlag();
+}
+
 INTF = 0;
 }
 else if(T0IF)
@@ -1673,7 +1627,7 @@ T0IF = 0;
 GIE = 1;
 }
 
-void toogleFlag()
+void toggleFlag()
 {
 if(flagPause == 0)
 flagPause = 1;
